@@ -185,6 +185,8 @@ class BaseNestedModelSerializer(serializers.ModelSerializer):
         return super(BaseNestedModelSerializer, self).save(**kwargs)
 
     def get_save_kwargs(self, field_name):
+        if not hasattr(self, 'save_kwargs'):
+            self.save_kwargs = defaultdict(dict)
         save_kwargs = self.save_kwargs[field_name]
         if not isinstance(save_kwargs, dict):
             raise TypeError(
